@@ -54,6 +54,12 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
     BloubShape.hexagon: 'Hexagon',
     BloubShape.cloud: 'Cloud',
     BloubShape.droplet: 'Droplet',
+    BloubShape.flame: 'Flame',
+    BloubShape.brain: 'Brain',
+    BloubShape.medal: 'Medal',
+    BloubShape.acorn: 'Acorn',
+    BloubShape.jellyfish: 'Jellyfish',
+    BloubShape.clover: 'Clover',
   };
 
   static const stateNames = {
