@@ -1,8 +1,11 @@
+import 'dart:ui' as ui;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../engine/mascot_engine.dart';
 import '../engine/skins.dart';
 import '../engine/mascot_expression.dart';
 import '../engine/mascot_state.dart';
+import 'mascot_painter.dart';
 import 'bloub_enums.dart';
 
 class BloubController extends ChangeNotifier {
@@ -84,5 +87,23 @@ class BloubController extends ChangeNotifier {
     _look = look;
     _engine.setLook(look, now);
     notifyListeners();
+  }
+  
+  /// Exports the current visual state of the avatar as a PNG image byte array.
+  /// You can provide an arbitrary [size] for the output image.
+  /// If [now] is not provided, the engine's current time is used.
+  Future<Uint8List> exportAsPng({double size = 512.0, double? now}) async {
+    final double t = now ?? 0.0;
+    final frame = _engine.sample(t);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
+    
+    final painter = MascotPainter(frame: frame, baseColor: resolvedColor);
+    painter.paint(canvas, Size(size, size));
+    
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(size.toInt(), size.toInt());
+    final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
   }
 }
