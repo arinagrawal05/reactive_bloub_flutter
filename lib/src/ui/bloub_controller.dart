@@ -98,8 +98,15 @@ class BloubController extends ChangeNotifier {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
     
+    // Add 15% padding to prevent the breathing animation or wide shapes from getting trimmed
+    final double padding = size * 0.15;
+    final double drawSize = size - (padding * 2);
+    
+    canvas.save();
+    canvas.translate(padding, padding);
     final painter = MascotPainter(frame: frame, baseColor: resolvedColor);
-    painter.paint(canvas, Size(size, size));
+    painter.paint(canvas, Size(drawSize, drawSize));
+    canvas.restore();
     
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.toInt(), size.toInt());
