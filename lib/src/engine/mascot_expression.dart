@@ -1,0 +1,151 @@
+import '../core/face.dart';
+import '../core/math.dart';
+import 'mascot_state.dart';
+
+class BotExpression {
+  final String id;
+  final HeadGaze gaze;
+  final double split;
+  final List<EyeCfg> eyes;
+
+  const BotExpression({
+    required this.id,
+    required this.gaze,
+    required this.split,
+    required this.eyes,
+  });
+}
+
+EyeCfg _eye(double w, double h, [double tilt = 0.0, double open = 1.0]) {
+  return EyeCfg(w: w, h: h, tilt: tilt, open: open);
+}
+
+List<EyeCfg> _pair(double w, double h, [double tilt = 0.0, double open = 1.0]) {
+  return [_eye(w, h, tilt, open), _eye(w, h, -tilt, open)];
+}
+
+final List<BotExpression> expressions = [
+  BotExpression(
+    id: 'neutre',
+    gaze: restGaze,
+    split: eyeSplit,
+    eyes: [_eye(eyeW, eyeH), _eye(eyeW, eyeH)],
+  ),
+  BotExpression(
+    id: 'attentif',
+    gaze: const HeadGaze(yaw: 4, pitch: 5, roll: -4),
+    split: 16,
+    eyes: _pair(0.21, 0.44),
+  ),
+  BotExpression(
+    id: 'surpris',
+    gaze: const HeadGaze(yaw: 3, pitch: -3, roll: 0),
+    split: 19,
+    eyes: _pair(0.45, 0.47),
+  ),
+  BotExpression(
+    id: 'excite',
+    gaze: const HeadGaze(yaw: 6, pitch: -14, roll: 0),
+    split: 19.5,
+    eyes: _pair(0.4, 0.56, -10),
+  ),
+  BotExpression(
+    id: 'heureux',
+    gaze: const HeadGaze(yaw: 5, pitch: 9, roll: 0),
+    split: 17,
+    eyes: _pair(0.27, 0.17, 14),
+  ),
+  BotExpression(
+    id: 'hilare',
+    gaze: const HeadGaze(yaw: 4, pitch: 14, roll: 0),
+    split: 18,
+    eyes: _pair(0.34, 0.13, 20),
+  ),
+  BotExpression(
+    id: 'colere',
+    gaze: const HeadGaze(yaw: 3, pitch: 7, roll: 0),
+    split: 17,
+    eyes: _pair(0.34, 0.15, 30),
+  ),
+  BotExpression(
+    id: 'triste',
+    gaze: const HeadGaze(yaw: 3, pitch: -13, roll: 0),
+    split: 16,
+    eyes: _pair(0.22, 0.4, -28),
+  ),
+  BotExpression(
+    id: 'effraye',
+    gaze: const HeadGaze(yaw: 2, pitch: -20, roll: 0),
+    split: 20.5,
+    eyes: _pair(0.4, 0.6),
+  ),
+  BotExpression(
+    id: 'mefiant',
+    gaze: const HeadGaze(yaw: 12, pitch: 6, roll: -6),
+    split: 16,
+    eyes: [_eye(0.21, 0.4), _eye(0.22, 0.15)],
+  ),
+  BotExpression(
+    id: 'confus',
+    gaze: const HeadGaze(yaw: -14, pitch: 3, roll: 8),
+    split: 16.5,
+    eyes: [_eye(0.2, 0.44, -18), _eye(0.28, 0.17, 14)],
+  ),
+  BotExpression(
+    id: 'curieux',
+    gaze: const HeadGaze(yaw: 16, pitch: -9, roll: -15),
+    split: 16.5,
+    eyes: [_eye(0.24, 0.46, -8), _eye(0.2, 0.38, -8)],
+  ),
+  BotExpression(
+    id: 'fier',
+    gaze: const HeadGaze(yaw: 5, pitch: 17, roll: 0),
+    split: 17,
+    eyes: _pair(0.3, 0.15, 18),
+  ),
+  BotExpression(
+    id: 'timide',
+    gaze: const HeadGaze(yaw: -19, pitch: -14, roll: -7),
+    split: 14,
+    eyes: _pair(0.17, 0.3),
+  ),
+  BotExpression(
+    id: 'blase',
+    gaze: const HeadGaze(yaw: -22, pitch: 2, roll: 0),
+    split: 16,
+    eyes: _pair(0.3, 0.12),
+  ),
+  BotExpression(
+    id: 'somnolent',
+    gaze: const HeadGaze(yaw: 6, pitch: -9, roll: -3),
+    split: 16,
+    eyes: _pair(0.2, 0.42, 0, 0.42),
+  ),
+];
+
+final Map<String, BotExpression> expressionById = {
+  for (var e in expressions) e.id: e
+};
+const String defaultExpression = 'neutre';
+
+EyeCfg _lerpEyeCfg(EyeCfg a, EyeCfg b, double t) {
+  return EyeCfg(
+    w: lerp(a.w, b.w, t),
+    h: lerp(a.h, b.h, t),
+    tilt: lerp(a.tilt, b.tilt, t),
+    open: lerp(a.open, b.open, t),
+  );
+}
+
+BotExpression blendExpression(BotExpression a, BotExpression b, double t) {
+  return BotExpression(
+    id: b.id,
+    gaze: HeadGaze(
+      yaw: lerp(a.gaze.yaw, b.gaze.yaw, t),
+      pitch: lerp(a.gaze.pitch, b.gaze.pitch, t),
+      roll: lerp(a.gaze.roll, b.gaze.roll, t),
+    ),
+    split: lerp(a.split, b.split, t),
+    eyes: [_lerpEyeCfg(a.eyes[0], b.eyes[0], t), _lerpEyeCfg(a.eyes[1], b.eyes[1], t)],
+  );
+}
