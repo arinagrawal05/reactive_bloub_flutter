@@ -1,3 +1,1 @@
-void downloadImage(List<int> bytes, String fileName) {
-  // Not implemented on this platform
-}
+void downloadImage(List<int> bytes, String fileName) {}

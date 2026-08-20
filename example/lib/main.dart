@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:bloub_avatar/bloub_avatar.dart';
 
+import 'export_stub.dart' if (dart.library.html) 'export_web.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -204,8 +206,9 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                         right: 0,
                         child: Center(
                           child: ElevatedButton.icon(
-                            onPressed: () {
-                              // Export as PNG mockup
+                            onPressed: () async {
+                              final bytes = await _controller.exportAsPng(size: 512, now: _now);
+                              downloadImage(bytes, 'bloub_avatar.png');
                             },
                             icon: const Icon(Icons.download_rounded, size: 18),
                             label: const Text('Export as PNG'),
