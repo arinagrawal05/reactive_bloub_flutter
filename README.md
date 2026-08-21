@@ -1,9 +1,10 @@
 # Reactive Bloub Flutter 🫧
 
 ![Mascot Overview](images/bloub_overview.png)
-![Bloub Avatar](images/bloub_single.png)
 
-An animated, procedurally-rendered mascot avatar for Flutter. Every frame is computed live — no sprite sheets, no Lottie files — so shapes, expressions, and animated states cross-fade smoothly into each other and blend in any combination!
+<video src="images/reactive_bloub_walkthrough.mov" width="600" autoplay loop muted playsinline></video>
+
+An animated mascot avatar for Flutter. Features fluid shape morphing, live expressions and vibrant particle effects based on app state. Shapes, expressions, and animated states cross-fade smoothly into each other and blend in any combination!
 
 It's perfect for virtual assistants, gamification, onboarding, loading screens, or any place where you need a bit of personality and life in your app. 💙
 
@@ -123,4 +124,6 @@ Check out the `example/` folder for a full playground where you can toggle every
 
 ---
 
-made with ❤️ by [arinbuilds](https://x.com/ArinBuilds)
+made with ❤️ by [ArinBuilds](https://x.com/ArinBuilds)
+
+
