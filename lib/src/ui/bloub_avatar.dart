@@ -72,11 +72,17 @@ class _BloubAvatarState extends State<BloubAvatar> with SingleTickerProviderStat
     return SizedBox(
       width: widget.size,
       height: widget.size,
-      child: CustomPaint(
-        painter: MascotPainter(
-          frame: frame,
-          baseColor: widget.controller.resolvedColor,
-        ),
+      child: TweenAnimationBuilder<Color?>(
+        tween: ColorTween(end: widget.controller.resolvedColor),
+        duration: const Duration(milliseconds: 300),
+        builder: (context, color, child) {
+          return CustomPaint(
+            painter: MascotPainter(
+              frame: frame,
+              baseColor: color ?? widget.controller.resolvedColor,
+            ),
+          );
+        },
       ),
     );
   }
