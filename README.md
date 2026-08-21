@@ -10,6 +10,7 @@ It's perfect for virtual assistants, gamification, onboarding, loading screens, 
 
 ## Features ✨
 
+- **Plug & Play** — Drop `BloubAvatar` into your app, pass a controller, and you're done. No assets to bundle, no rigid animations.
 - **12+ Shapes** — Circle, pebble, squircle, capsule, triangle, cloud, droplet, flame, medal, acorn, jellyfish, clover. (Shapes morph fluidly!)
 - **12+ Expressions** — Neutral, happy, excited, sad, angry, curious, proud, shy, and more.
 - **15 Animated States** — Idle, thinking, wink, alert, notify, exclaim, sleep, play, orbit, burst, comet, and more.
