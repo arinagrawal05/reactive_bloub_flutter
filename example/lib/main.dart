@@ -201,7 +201,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
                             onPressed: () async {
                               final bytes = await _controller.exportAsPng(
                                 size: 512,
-                                now: _now,
+                                // now: _now,
                               );
                               downloadImage(bytes, 'bloub_avatar.png');
                             },
