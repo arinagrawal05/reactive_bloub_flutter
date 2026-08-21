@@ -1,4 +1,4 @@
-# Reactive Bloub Flutter 🫧
+# Reactive Bloub Flutter
 
 ![Mascot Overview](images/bloub_overview.png)
 
@@ -106,6 +106,30 @@ Export the current frame as a static PNG. This is great for dynamic share-cards,
 ```dart
 final bytes = await controller.exportAsPng(size: 512);
 ```
+
+---
+
+## API Reference
+
+### `BloubAvatar` Properties
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `controller` | `BloubController` | **Required.** The controller that manages the mascot's state, shape, and expression. |
+| `size` | `double` | The width and height of the avatar canvas. Defaults to `200`. |
+| `margin` | `EdgeInsets` | Adds padding inside the rendering canvas before the mascot is drawn. |
+
+### `BloubController` Configuration
+
+When creating the `BloubController`, you can pass several optional parameters:
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `initialShape` | `BloubShape` | The starting shape of the mascot (e.g. `BloubShape.circle`). |
+| `initialExpression` | `BloubExpression` | The starting facial expression. |
+| `initialState` | `BloubState` | The starting body animation state. |
+| `initialPredefinedColor` | `BloubPredefinedColor` | Set a built-in beautiful color gradient (e.g. `BloubPredefinedColor.teal`). |
+| `initialCustomColor` | `Color` | Set an exact brand color (overrides predefined). |
 
 ---
 

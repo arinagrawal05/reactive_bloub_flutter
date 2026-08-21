@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import '../core/face.dart';
 import '../core/math.dart';
 import '../core/shape.dart';
-import '../core/profiles.dart';
 import '../ui/bloub_enums.dart';
 import 'decor.dart';
 

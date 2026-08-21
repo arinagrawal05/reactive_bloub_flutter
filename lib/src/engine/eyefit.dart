@@ -257,8 +257,9 @@ List<double> _dates(StateDef def) {
         '${p.sil.rot}|${p.sil.cx}|${p.sil.cy}|${p.sil.sx}|${p.sil.sy}';
   }
 
-  if (signature(def.pose(0, null)) == signature(def.pose(def.duration, null)))
+  if (signature(def.pose(0, null)) == signature(def.pose(def.duration, null))) {
     return [0.0];
+  }
   const n = 3;
   return List.generate(n, (i) => (i / (n - 1)) * def.duration);
 }
