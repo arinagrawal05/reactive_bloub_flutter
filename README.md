@@ -1,13 +1,18 @@
 # Reactive Bloub Flutter
 
-![Mascot Overview](images/bloub_overview.png)
+![Mascot Overview](https://github.com/arinagrawal05/reactive_bloub_flutter/raw/main/images/bloub_overview.png)
+<br/>
 
-<video src="images/reactive_bloub_walkthrough.mov" width="600" autoplay loop muted playsinline></video>
+<video src="https://github.com/arinagrawal05/reactive_bloub_flutter/raw/main/images/reactive_bloub_walkthrough.mov" width="600" autoplay loop muted playsinline></video>
+
 
 An animated mascot avatar for Flutter. Features fluid shape morphing, live expressions and vibrant particle effects based on app state. Shapes, expressions, and animated states cross-fade smoothly into each other and blend in any combination!
 
 It's perfect for virtual assistants, gamification, onboarding, loading screens, or any place where you need a bit of personality and life in your app. 💙
 
+<br/>
+
+### 🌟 [**Try the Live Interactive Demo Here!**](https://arinagr.me/reactive_bloub_flutter/) 🌟
 ## Features ✨
 
 - **Plug & Play** — Drop `BloubAvatar` into your app, pass a controller, and you're done. No assets to bundle, no rigid animations.
@@ -143,9 +148,15 @@ Animations are categorized into two paradigms:
 
 If you set a one-shot state directly via `controller.setState(BloubState.exclaim)`, it will not return to idle automatically. Usually, it's better to use `react()` or `celebrate()` which schedules the sequence back to `.idle` for you.
 
-### Example App
+### Example App (Playground)
 
-Check out the `example/` folder for a full playground where you can toggle every single shape, expression, and state, pick colors, and test out animations.
+Check out `example/lib/playground.dart` for a full interactive playground where you can toggle every single shape, expression, and state, pick colors, and test out animations.
+
+To run it locally:
+```bash
+cd example
+flutter run -t lib/playground.dart
+```
 
 ---
 
