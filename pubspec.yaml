@@ -1,8 +1,7 @@
-name: bloub_avatar
+name: reactive_bloub
 description: "An animated, procedurally-rendered blob mascot avatar for Flutter — 14 shapes, 16 expressions, and 15 animated states, all cross-fading live."
 version: 0.1.0
-# TODO(publish): set `repository:` to the actual GitHub URL once this package
-# has a remote — pub.dev requires it to be reachable for the "verified" badge.
+repository: https://github.com/arinagrawal05/reactive_bloub_flutter
 topics:
   - avatar
   - mascot

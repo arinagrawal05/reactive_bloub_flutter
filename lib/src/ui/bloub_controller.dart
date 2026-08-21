@@ -32,6 +32,7 @@ class BloubController extends ChangeNotifier {
   final Stopwatch _clock = Stopwatch()..start();
   bool _disposed = false;
   int _playToken = 0;
+  int _expressionToken = 0;
 
   BloubShape _shape = BloubShape.circle;
   BloubPredefinedColor? _predefinedColor = BloubPredefinedColor.black;
@@ -112,36 +113,73 @@ class BloubController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Plays [state] (e.g. [BloubState.thinking], [BloubState.exclaim]) and
-  /// holds it until something else changes it.
-  ///
-  /// Sustained states like [BloubState.idle], [BloubState.thinking],
-  /// [BloubState.notify] and [BloubState.sleep] loop indefinitely and are
-  /// meant to be held for as long as you need — call this again (typically
-  /// with [BloubState.idle]) when whatever they represent is over.
-  ///
-  /// One-shot states like [BloubState.exclaim], [BloubState.alert] and
-  /// [BloubState.comet] play a fixed pose and then just hold on their last
-  /// frame — they do **not** return to idle by themselves. Prefer [react]
-  /// or [celebrate] for those; they call this and schedule the return to
-  /// idle for you.
+  /// Sets a permanent animated state (e.g. idle, thinking).
+  /// This state will run indefinitely until changed.
   void setState(BloubState state, [double? now]) {
     if (_state == state) return;
+    _playToken++; // Cancel any temporary states
     _state = state;
     _engine.setState(_state.id, now ?? elapsed);
     notifyListeners();
   }
 
-  /// Blends to [expression]. Pass `null` to return to the state's default
-  /// expression.
+  /// Plays a state temporarily for the given [duration], then automatically
+  /// reverts to [fallback]. If no duration is provided, it uses the state's
+  /// default natural duration.
+  void playStateTemporarily(
+    BloubState state, {
+    Duration? duration,
+    BloubState fallback = BloubState.idle,
+    double? now,
+  }) {
+    if (_state == state) return;
+    _state = state;
+    _engine.setState(_state.id, now ?? elapsed);
+    notifyListeners();
+
+    final double defaultDuration = stateById[state.id]?.duration ?? 2.0;
+    final int delayMs = duration?.inMilliseconds ?? (defaultDuration * 1000).round();
+    
+    final token = ++_playToken;
+    Future.delayed(Duration(milliseconds: delayMs), () {
+      if (_disposed || token != _playToken) return;
+      setState(fallback);
+    });
+  }
+
+  /// Blends to [expression] permanently.
   void setExpression(BloubExpression? expression, [double? now]) {
     if (_expression == expression) return;
+    _expressionToken++; // Cancel any temporary expressions
     _expression = expression;
     _engine.setExpression(
       expression != null ? expressionById[expression.id] : null,
       now ?? elapsed,
     );
     notifyListeners();
+  }
+
+  /// Plays a facial expression temporarily for the given [duration], then 
+  /// automatically reverts to [fallback].
+  void playExpressionTemporarily(
+    BloubExpression expression, {
+    required Duration duration,
+    BloubExpression? fallback,
+    double? now,
+  }) {
+    if (_expression == expression) return;
+    _expression = expression;
+    _engine.setExpression(
+      expressionById[expression.id],
+      now ?? elapsed,
+    );
+    notifyListeners();
+
+    final token = ++_expressionToken;
+    Future.delayed(duration, () {
+      if (_disposed || token != _expressionToken) return;
+      setExpression(fallback);
+    });
   }
 
   /// Points the avatar's gaze toward a direction, e.g. to track a pointer
@@ -163,40 +201,29 @@ class BloubController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Plays a one-shot reaction — a positive one (e.g. a correct answer) if
-  /// [correct] is `true`, otherwise a mistake reaction — then automatically
-  /// returns to [BloubState.idle] once the reaction's animation finishes.
-  void react({required bool correct, double? now}) {
-    _playOnce(correct ? BloubState.exclaim : BloubState.alert, now);
-  }
-
-  /// Plays a bigger celebration — use for level/world completion rather
-  /// than a single correct answer — then automatically returns to
-  /// [BloubState.idle].
-  void celebrate([double? now]) {
-    _playOnce(BloubState.comet, now);
-  }
-
-  void _playOnce(BloubState target, double? now) {
-    setState(target, now);
-    final duration = stateById[target.id]?.duration ?? 2.0;
-    final token = ++_playToken;
-    Future.delayed(Duration(milliseconds: (duration * 1000).round()), () {
-      if (_disposed || token != _playToken) return;
-      setState(BloubState.idle);
-    });
-  }
-
-  /// Plays the "thinking" state — use while something is loading or a
-  /// hint is being computed. This loops indefinitely; call [idle] (or
-  /// [react]/[celebrate]) once the wait is over.
-  void think([double? now]) {
-    setState(BloubState.thinking, now);
-  }
-
-  /// Returns to the resting/idle state.
-  void idle([double? now]) {
-    setState(BloubState.idle, now);
+  /// Updates base properties dynamically
+  void updateProperties({
+    BloubPredefinedColor? predefinedColor,
+    Color? customColor,
+    BloubShape? shape,
+  }) {
+    bool changed = false;
+    if (predefinedColor != null && _predefinedColor != predefinedColor) {
+      _predefinedColor = predefinedColor;
+      changed = true;
+    }
+    if (customColor != null && _customColor != customColor) {
+      _customColor = customColor;
+      changed = true;
+    }
+    if (shape != null && _shape != shape) {
+      _shape = shape;
+      _engine.setShape(shapeById[_shape.id]?.radii, elapsed);
+      changed = true;
+    }
+    if (changed) {
+      notifyListeners();
+    }
   }
 
   @override

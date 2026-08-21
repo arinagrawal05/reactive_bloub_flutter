@@ -113,7 +113,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
     // Set initial configuration
     _controller.setShape(_selectedShape, 0);
     _controller.setExpression(_selectedExpression, 0);
-    _controller.setColor(predefined: _selectedColor);
+    _controller.updateProperties(predefinedColor: _selectedColor);
     _controller.setState(_selectedState, 0);
   }
 
@@ -350,7 +350,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                           onTap: () {
                             setState(() {
                               _selectedColor = c;
-                              _controller.setColor(predefined: c);
+                              _controller.updateProperties(predefinedColor: c);
                             });
                           },
                           borderRadius: BorderRadius.circular(20),
@@ -443,7 +443,7 @@ class _MiniAvatarState extends State<_MiniAvatar> {
     _ctrl = BloubController();
     _ctrl.setShape(widget.shape, 0);
     _ctrl.setExpression(widget.expression, 0);
-    _ctrl.setColor(predefined: widget.color);
+    _ctrl.updateProperties(predefinedColor: widget.color);
     if (widget.state != null) {
       _ctrl.setState(widget.state!, 0);
     }
@@ -463,7 +463,7 @@ class _MiniAvatarState extends State<_MiniAvatar> {
     if (oldWidget.shape != widget.shape) _ctrl.setShape(widget.shape, 0);
     if (oldWidget.expression != widget.expression)
       _ctrl.setExpression(widget.expression, 0);
-    if (oldWidget.color != widget.color) _ctrl.setColor(predefined: widget.color);
+    if (oldWidget.color != widget.color) _ctrl.updateProperties(predefinedColor: widget.color);
     if (oldWidget.state != widget.state && widget.state != null) {
       _ctrl.setState(widget.state!, 0);
     }

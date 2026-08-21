@@ -1,0 +1,32 @@
+name: Deploy Example to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'example/**'
+      - 'lib/**'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Build Web Example
+        run: |
+          cd example
+          flutter pub get
+          flutter build web --base-href "/reactive_bloub_flutter/" 
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./example/build/web
