@@ -33,7 +33,7 @@ final List<BotShape> shapes = [
     hullOfCircles(-0.42, 0.0, 0.62, 0.42, 0.0, 0.62), 0.0, 0.0
   )),
   BotShape(id: 'triangle', radii: regularPolygonProfile(3, 1.12, 0.34, -90.0)),
-  BotShape(id: 'hexagone', radii: regularPolygonProfile(6, 1.04, 0.26, 0.0)),
+
   BotShape(id: 'nuage', radii: _normalize(unionOfCirclesProfile([
     CircleDef(x: -0.44, y: 0.2, r: 0.54),
     CircleDef(x: 0.46, y: 0.2, r: 0.5),
@@ -50,15 +50,7 @@ final List<BotShape> shapes = [
     CircleDef(x: 0.0, y: -0.2, r: 0.35),
     CircleDef(x: 0.15, y: -0.5, r: 0.15),
   ]), 16), 1.05)),
-  BotShape(id: 'cerveau', radii: _normalize(unionOfCirclesProfile([
-    CircleDef(x: -0.2, y: -0.2, r: 0.35),
-    CircleDef(x: 0.2, y: -0.2, r: 0.35),
-    CircleDef(x: -0.4, y: 0.1, r: 0.3),
-    CircleDef(x: 0.4, y: 0.1, r: 0.3),
-    CircleDef(x: -0.2, y: 0.3, r: 0.35),
-    CircleDef(x: 0.2, y: 0.3, r: 0.35),
-    CircleDef(x: 0.0, y: 0.0, r: 0.45),
-  ]), 1.05)),
+
   BotShape(id: 'medaille', radii: _normalize(unionOfCirclesProfile([
     CircleDef(x: 0.0, y: -0.2, r: 0.5),
     CircleDef(x: -0.25, y: 0.5, r: 0.2),

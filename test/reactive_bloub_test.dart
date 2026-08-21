@@ -5,12 +5,12 @@ import 'package:reactive_bloub/reactive_bloub.dart';
 void main() {
   test('BloubController exposes the configured shape, color and state', () {
     final controller = BloubController(
-      initialShape: BloubShape.hexagon,
+      initialShape: BloubShape.triangle,
       initialPredefinedColor: BloubPredefinedColor.teal,
       initialState: BloubState.idle,
     );
 
-    expect(controller.shape, BloubShape.hexagon);
+    expect(controller.shape, BloubShape.triangle);
     expect(controller.predefinedColor, BloubPredefinedColor.teal);
     expect(controller.state, BloubState.idle);
     expect(controller.resolvedColor, isNotNull);
