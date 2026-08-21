@@ -167,7 +167,7 @@ class StateDef {
   final bool blinkIn;
   final bool baseBody;
   final bool baseFace;
-  final Pose Function(double) pose;
+  final Pose Function(double, List<double>?) pose;
 
   const StateDef({
     required this.id,
@@ -195,7 +195,7 @@ final List<StateDef> states = [
     blinkIn: false,
     baseFace: true,
     baseBody: true,
-    pose: (t) => basePose(),
+    pose: (t, shape) => basePose(),
   ),
   StateDef(
     id: 'thinking',
@@ -204,7 +204,7 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: true,
-    pose: (t) {
+    pose: (t, shape) {
       final mid = _dotPulse(t, 1);
       final emerge = 0.3 + 0.7 * Easings.easeOutCubic(clamp(t / 0.3));
       return basePose(
@@ -229,12 +229,12 @@ final List<StateDef> states = [
     blinkIn: true,
     baseFace: false,
     baseBody: true,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       gaze: const HeadGaze(yaw: -5.37, pitch: 4.55, roll: 6.7),
       split: 16.25,
       eyes: [
         const EyeCfg(w: 0.236, h: 0.464, open: 1.0),
-        const EyeCfg(w: 0.447, h: 0.089, open: 1.0)
+        const EyeCfg(w: 0.447, h: 0.089, open: 1.0),
       ],
     ),
   ),
@@ -245,7 +245,7 @@ final List<StateDef> states = [
     blinkIn: true,
     baseFace: false,
     baseBody: true,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       gaze: const HeadGaze(yaw: 6.92, pitch: -21.96, roll: 11.6),
       split: 18.43,
       eyes: _pair(0.356, 0.875),
@@ -259,7 +259,7 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: false,
-    pose: (t) {
+    pose: (t, shape) {
       final p = clamp(t / 1.5);
       final travel = Easings.easeInOutCubic(p) * 0.82 - 0.087;
       final back = t > 1.6 ? clamp((t - 1.6) / 0.4) : 0.0;
@@ -277,7 +277,7 @@ final List<StateDef> states = [
             d: tearPath,
             rot: (tilt * 180.0) / math.pi,
             opacity: 1.0,
-          )
+          ),
         ],
       );
     },
@@ -289,7 +289,7 @@ final List<StateDef> states = [
     blinkIn: true,
     baseFace: false,
     baseBody: true,
-    pose: (t) {
+    pose: (t, shape) {
       final p = clamp(t / 0.45);
       final pop =
           1.0 + (notifPop - 1.0) * math.sin(p * math.pi) * (1.0 - p * 0.35);
@@ -315,12 +315,10 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: false,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       sil: _barUpright(),
       eyeAlpha: 0.0,
-      dots: [
-        const DotRender(x: -0.012, y: 0.526, r: 0.113, opacity: 1.0),
-      ],
+      dots: [const DotRender(x: -0.012, y: 0.526, r: 0.113, opacity: 1.0)],
     ),
   ),
   StateDef(
@@ -328,11 +326,16 @@ final List<StateDef> states = [
     duration: 2.4,
     morph: 0.5,
     baseFace: false,
-    baseBody: false,
+    baseBody: true,
     blinkIn: false,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       bodyAlpha: 1.0,
-      sil: createCircle(0.1585, cy: 0.11 + math.sin(t * (tau / 0.6)) * 0.19),
+      sil: createCircle(
+        1.0,
+        sx: 0.1585,
+        sy: 0.1585,
+        cy: 0.11 + math.sin(t * (tau / 0.6)) * 0.19,
+      ),
       offX: 0.0,
       eyeAlpha: 0.0,
     ),
@@ -344,7 +347,7 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: true,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       sil: createSilhouette(ProfileName.egg),
       offX: 0.0,
       gaze: const HeadGaze(yaw: 19.97, pitch: 26.01, roll: -17.1),
@@ -359,7 +362,7 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: true,
-    pose: (t) => basePose(
+    pose: (t, shape) => basePose(
       sil: createSilhouette(ProfileName.hexagon),
       offX: 0.0,
       gaze: const HeadGaze(yaw: 23.11, pitch: 24.42, roll: -13.3),
@@ -374,21 +377,31 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: true,
-    pose: (t) {
+    pose: (t, shape) {
       final fade = clamp(t / 0.35) * clamp((2.2 - t) / 0.5);
       final List<ArcSpec> specArcs = [];
       for (int i = 0; i < swoosh.length; i++) {
         final s = swoosh[i];
-        specArcs.add(ArcSpec(
-          id: 'sw$i',
-          seed: ArcSeed(
-            a: s.a, k: s.k, tilt: s.tilt, speed: s.speed, phase: s.phase,
-            sweep: s.sweep, hue: s.hue, hueSpan: s.hueSpan, width: s.width,
-            cx: 0.45 - t * 0.42, cy: s.cy,
+        specArcs.add(
+          ArcSpec(
+            id: 'sw$i',
+            seed: ArcSeed(
+              a: s.a,
+              k: s.k,
+              tilt: s.tilt,
+              speed: s.speed,
+              phase: s.phase,
+              sweep: s.sweep,
+              hue: s.hue,
+              hueSpan: s.hueSpan,
+              width: s.width,
+              cx: 0.45 - t * 0.42,
+              cy: s.cy,
+            ),
+            t: t,
+            opacity: fade,
           ),
-          t: t,
-          opacity: fade,
-        ));
+        );
       }
       return basePose(
         sil: _spinningTriangle(0.0),
@@ -407,14 +420,14 @@ final List<StateDef> states = [
     baseFace: false,
     baseBody: false,
     blinkIn: false,
-    pose: (t) {
+    pose: (t, shape) {
       final tri = _spinningTriangle(0.0);
       final rot = lerp(0.0, tau / 4.0, clamp((t - 1.1) / 0.6));
-      final ball = createCircle(1.0, rot: rot);
+      final ballRadii = shape ?? createCircle(1.0).radii;
       final back = Easings.easeInOutCubic(clamp((t - 1.6) / 0.9));
       final List<double> radii = [];
       for (int i = 0; i < tri.radii.length; i++) {
-        radii.add(tri.radii[i] + (ball.radii[i] - tri.radii[i]) * back);
+        radii.add(tri.radii[i] + (ballRadii[i] - tri.radii[i]) * back);
       }
       final sil = Silhouette(
         radii: radii,
@@ -427,12 +440,14 @@ final List<StateDef> states = [
       final fade = clamp(t / 0.8) * clamp((3.6 - t) / 0.9);
       final List<ArcSpec> specArcs = [];
       for (int i = 0; i < rings.length; i++) {
-        specArcs.add(ArcSpec(
-          id: 'rg$i',
-          seed: rings[i],
-          t: t,
-          opacity: fade * clamp((t - i * 0.13) / 0.3),
-        ));
+        specArcs.add(
+          ArcSpec(
+            id: 'rg$i',
+            seed: rings[i],
+            t: t,
+            opacity: fade * clamp((t - i * 0.13) / 0.3),
+          ),
+        );
       }
       return basePose(
         sil: sil,
@@ -454,15 +469,17 @@ final List<StateDef> states = [
     baseFace: true,
     baseBody: true,
     blinkIn: true,
-    pose: (t) {
+    pose: (t, shape) {
       final List<ArcSpec> specArcs = [];
       for (int i = 0; i < 3; i++) {
-        specArcs.add(ArcSpec(
-          id: 'sw$i',
-          seed: rings[i],
-          t: t,
-          opacity: clamp((t - i * 0.06) / 0.14) * clamp((1.22 - t) / 0.34),
-        ));
+        specArcs.add(
+          ArcSpec(
+            id: 'sw$i',
+            seed: rings[i],
+            t: t,
+            opacity: clamp((t - i * 0.06) / 0.14) * clamp((1.22 - t) / 0.34),
+          ),
+        );
       }
       return basePose(arcs: specArcs);
     },
@@ -473,13 +490,14 @@ final List<StateDef> states = [
     minDuration: 2.4,
     morph: 0.4,
     baseFace: false,
-    baseBody: false,
+    baseBody: true,
     blinkIn: false,
-    pose: (t) {
+    pose: (t, shape) {
       final collapse = 1.0 - clamp(t / 0.35);
       final regrow = clamp((t - 1.0) / 0.2);
+      final scale = collapse + (1.0 - collapse) * regrow;
       return basePose(
-        sil: createCircle(collapse + (1.0 - collapse) * regrow),
+        sil: createCircle(1.0, sx: scale, sy: scale),
         offX: 0.0,
         eyeAlpha: clamp((t - 1.85) / 0.4),
         dots: getParticles(t, 1.0),
@@ -493,21 +511,26 @@ final List<StateDef> states = [
     minDuration: 2.4,
     morph: 0.45,
     baseFace: false,
-    baseBody: false,
+    baseBody: true,
     blinkIn: false,
-    pose: (t) {
+    pose: (t, shape) {
       final collapse = 1.0 - clamp(t / 0.1);
       final regrow = clamp((t - 0.7) / 0.1);
+      final scale = collapse + (1.0 - collapse) * regrow;
       final fade = clamp((t - 0.15) / 0.25) * clamp((1.95 - t) / 0.3);
       final List<ArcSpec> specArcs = [];
       for (int i = 0; i < cometRibbons.length; i++) {
-        specArcs.add(ArcSpec(
-          id: 'cm$i', seed: cometRibbons[i], t: t, opacity: fade,
-        ));
+        specArcs.add(
+          ArcSpec(id: 'cm$i', seed: cometRibbons[i], t: t, opacity: fade),
+        );
       }
       return basePose(
-        sil: createCircle(collapse + (1.0 - collapse) * regrow,
-            cy: math.sin(clamp(t / 1.7) * math.pi) * 0.035),
+        sil: createCircle(
+          1.0,
+          sx: scale,
+          sy: scale,
+          cy: math.sin(clamp(t / 1.7) * math.pi) * 0.035,
+        ),
         offX: 0.0,
         eyeAlpha: clamp((t - 2.0) / 0.35),
         arcs: specArcs,
