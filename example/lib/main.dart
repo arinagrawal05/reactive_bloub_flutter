@@ -34,11 +34,8 @@ class PlaygroundScreen extends StatefulWidget {
   State<PlaygroundScreen> createState() => _PlaygroundScreenState();
 }
 
-class _PlaygroundScreenState extends State<PlaygroundScreen>
-    with SingleTickerProviderStateMixin {
+class _PlaygroundScreenState extends State<PlaygroundScreen> {
   late BloubController _controller;
-  late Ticker _ticker;
-  double _now = 0.0;
 
   bool _followPointer = true;
 
@@ -105,21 +102,16 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
   void initState() {
     super.initState();
     _controller = BloubController();
-    _ticker = createTicker((elapsed) {
-      _now = elapsed.inMicroseconds / 1000000.0;
-    });
-    _ticker.start();
 
     // Set initial configuration
-    _controller.setShape(_selectedShape, 0);
-    _controller.setExpression(_selectedExpression, 0);
+    _controller.setShape(_selectedShape);
+    _controller.setExpression(_selectedExpression);
     _controller.updateProperties(predefinedColor: _selectedColor);
-    _controller.setState(_selectedState, 0);
+    _controller.setState(_selectedState);
   }
 
   @override
   void dispose() {
-    _ticker.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -134,11 +126,11 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
     final yaw = (dx / size.width) * 80.0;
     final pitch = -(dy / size.height) * 80.0;
 
-    _controller.lookAt(yaw: yaw, pitch: pitch, now: _now);
+    _controller.lookAt(yaw: yaw, pitch: pitch);
   }
 
   void _resetGaze() {
-    _controller.resetGaze(_now);
+    _controller.resetGaze();
   }
 
   Widget _buildGridItem({
@@ -266,7 +258,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                           onTap: () {
                             setState(() {
                               _selectedShape = e.key;
-                              _controller.setShape(e.key, _now);
+                              _controller.setShape(e.key);
                             });
                           },
                         ),
@@ -297,7 +289,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                           onTap: () {
                             setState(() {
                               _selectedExpression = e.key;
-                              _controller.setExpression(e.key, _now);
+                              _controller.setExpression(e.key);
                             });
                           },
                         ),
@@ -329,7 +321,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                           onTap: () {
                             setState(() {
                               _selectedState = e.key;
-                              _controller.setState(e.key, _now);
+                              _controller.setState(e.key);
                             });
                           },
                         ),
@@ -444,18 +436,18 @@ class _MiniAvatarState extends State<_MiniAvatar> {
   void initState() {
     super.initState();
     _ctrl = BloubController();
-    _ctrl.setShape(widget.shape, 0);
-    _ctrl.setExpression(widget.expression, 0);
+    _ctrl.setShape(widget.shape);
+    _ctrl.setExpression(widget.expression);
     _ctrl.updateProperties(predefinedColor: widget.color);
     if (widget.state != null) {
-      _ctrl.setState(widget.state!, 0);
+      _ctrl.setState(widget.state!);
     }
 
     // Simulate a tiny bit of time so it settles if needed
     Future.microtask(() {
       if (mounted) {
-        _ctrl.setShape(widget.shape, 0.1);
-        _ctrl.setExpression(widget.expression, 0.1);
+        _ctrl.setShape(widget.shape);
+        _ctrl.setExpression(widget.expression);
       }
     });
   }
@@ -464,16 +456,16 @@ class _MiniAvatarState extends State<_MiniAvatar> {
   void didUpdateWidget(covariant _MiniAvatar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.shape != widget.shape) {
-      _ctrl.setShape(widget.shape, 0);
+      _ctrl.setShape(widget.shape);
     }
     if (oldWidget.expression != widget.expression) {
-      _ctrl.setExpression(widget.expression, 0);
+      _ctrl.setExpression(widget.expression);
     }
     if (oldWidget.color != widget.color) {
       _ctrl.updateProperties(predefinedColor: widget.color);
     }
     if (oldWidget.state != widget.state && widget.state != null) {
-      _ctrl.setState(widget.state!, 0);
+      _ctrl.setState(widget.state!);
     }
   }
 
