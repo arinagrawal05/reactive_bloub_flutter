@@ -1,4 +1,4 @@
-# bloub_avatar
+# reactive_bloub
 
 An animated, procedurally-rendered mascot avatar for Flutter. Every frame is
 computed live — no sprite sheets, no Lottie files — so shapes, expressions,
@@ -19,13 +19,13 @@ combination.
 
 ```yaml
 dependencies:
-  bloub_avatar: ^0.1.0
+  reactive_bloub: ^0.1.0
 ```
 
 ## Usage
 
 ```dart
-import 'package:bloub_avatar/bloub_avatar.dart';
+import 'package:reactive_bloub/reactive_bloub.dart';
 
 final controller = BloubController(
   initialShape: BloubShape.circle,

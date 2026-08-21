@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:bloub_avatar/bloub_avatar.dart';
+import 'package:reactive_bloub/reactive_bloub.dart';
 
 import 'export_stub.dart' if (dart.library.html) 'export_web.dart';
 

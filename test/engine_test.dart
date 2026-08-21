@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bloub_avatar/src/engine/mascot_engine.dart';
+import 'package:reactive_bloub/src/engine/mascot_engine.dart';
 
 void main() {
   test('sample does not crash', () {
