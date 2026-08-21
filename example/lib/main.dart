@@ -207,7 +207,10 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                         child: Center(
                           child: ElevatedButton.icon(
                             onPressed: () async {
-                              final bytes = await _controller.exportAsPng(size: 512, now: _now);
+                              final bytes = await _controller.exportAsPng(
+                                size: 512,
+                                now: _now,
+                              );
                               downloadImage(bytes, 'bloub_avatar.png');
                             },
                             icon: const Icon(Icons.download_rounded, size: 18),
@@ -399,7 +402,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                   value: _followPointer,
-                  activeColor: const Color(0xFF2B2D42),
+                  activeThumbColor: const Color(0xFF2B2D42),
                   onChanged: (val) {
                     setState(() {
                       _followPointer = val;
@@ -460,10 +463,15 @@ class _MiniAvatarState extends State<_MiniAvatar> {
   @override
   void didUpdateWidget(covariant _MiniAvatar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.shape != widget.shape) _ctrl.setShape(widget.shape, 0);
-    if (oldWidget.expression != widget.expression)
+    if (oldWidget.shape != widget.shape) {
+      _ctrl.setShape(widget.shape, 0);
+    }
+    if (oldWidget.expression != widget.expression) {
       _ctrl.setExpression(widget.expression, 0);
-    if (oldWidget.color != widget.color) _ctrl.updateProperties(predefinedColor: widget.color);
+    }
+    if (oldWidget.color != widget.color) {
+      _ctrl.updateProperties(predefinedColor: widget.color);
+    }
     if (oldWidget.state != widget.state && widget.state != null) {
       _ctrl.setState(widget.state!, 0);
     }
