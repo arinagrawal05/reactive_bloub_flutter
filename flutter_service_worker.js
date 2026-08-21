@@ -28,15 +28,15 @@ const RESOURCES = {"version.json": "ff966ab969ba381b900e61629bfb9789",
 "og.png": "d0e6b48124cd2b9e0834a1ef119154af",
 "apple-touch-icon.png": "9c5d446e1340b60aeafe20bf9a89bfac",
 "assets/AssetManifest.bin.json": "69a99f98c8b1fb8111c5fb961769fcd8",
-"assets/NOTICES": "9a5631d5d5df98c64dfca4e4ddaab13a",
-"assets/fonts/MaterialIcons-Regular.otf": "4f7d2568e5b2ff06f83e96f149d6e52b",
+"assets/NOTICES": "303dfa990a8418501232ebade4425416",
+"assets/fonts/MaterialIcons-Regular.otf": "a41bed703c8dd0be10cd5d4f0947b9a6",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/AssetManifest.bin": "693635b5258fe5f1cda720cf224f158c",
 "assets/shaders/stretch_effect.frag": "40d68efbbf360632f614c731219e95f0",
 "assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "33b7d9392238c04c131b6ce224e13711",
-"main.dart.js": "aa847e7558a2e60c34576e43a239c4df",
-"flutter_bootstrap.js": "73cd8b3b8820e95968f852ae835bea84"};
+"main.dart.js": "ec43425b51a6997617fbbe77d781944e",
+"flutter_bootstrap.js": "ea6871c819e06d9ed28f2815070046a0"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
