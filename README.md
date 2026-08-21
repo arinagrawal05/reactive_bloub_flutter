@@ -1,6 +1,6 @@
 # Reactive Bloub Flutter
 
-![Mascot Overview](images/bloub_overview.png)
+![Mascot Overview](https://raw.githubusercontent.com/arinagrawal05/reactive_bloub_flutter/main/images/bloub_overview.png)
 <br/>
 
 [![Reactive Bloub Flutter Demo](https://img.youtube.com/vi/J9TNbLyrgrU/0.jpg)](https://www.youtube.com/watch?v=J9TNbLyrgrU)
