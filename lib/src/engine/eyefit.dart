@@ -1,5 +1,4 @@
 import '../core/face.dart';
-import '../core/math.dart';
 import '../core/shape.dart';
 import 'skins.dart';
 import 'mascot_expression.dart';

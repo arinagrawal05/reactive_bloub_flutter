@@ -88,28 +88,3 @@ final List<BotShape> shapes = [
 
 final Map<String, BotShape> shapeById = {for (var s in shapes) s.id: s};
 const String defaultShape = 'cercle';
-
-class BotColor {
-  final String id;
-  final String hex;
-
-  const BotColor({required this.id, required this.hex});
-}
-
-const List<BotColor> colors = [
-  BotColor(id: 'encre', hex: '#0a0a0c'),
-  BotColor(id: 'brun', hex: '#8b5e3c'),
-  BotColor(id: 'rouge', hex: '#e8483f'),
-  BotColor(id: 'orange', hex: '#f08a24'),
-  BotColor(id: 'ambre', hex: '#f0b429'),
-  BotColor(id: 'vert', hex: '#3ecf8e'),
-  BotColor(id: 'turquoise', hex: '#2fbfa0'),
-  BotColor(id: 'bleu', hex: '#3b93f0'),
-  BotColor(id: 'violet', hex: '#8b5cf6'),
-  BotColor(id: 'rose', hex: '#e152b0'),
-  BotColor(id: 'gris', hex: '#a3a3a3'),
-  BotColor(id: 'creme', hex: '#f1efe9'),
-];
-
-final Map<String, BotColor> colorById = {for (var c in colors) c.id: c};
-const String defaultColor = 'encre';

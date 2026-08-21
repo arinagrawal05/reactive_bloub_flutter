@@ -1,12 +1,37 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:bloub_avatar/bloub_avatar.dart';
 
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  test('BloubController exposes the configured shape, color and state', () {
+    final controller = BloubController(
+      initialShape: BloubShape.hexagon,
+      initialPredefinedColor: BloubPredefinedColor.teal,
+      initialState: BloubState.idle,
+    );
+
+    expect(controller.shape, BloubShape.hexagon);
+    expect(controller.predefinedColor, BloubPredefinedColor.teal);
+    expect(controller.state, BloubState.idle);
+    expect(controller.resolvedColor, isNotNull);
+  });
+
+  test('setState/setShape/setExpression update controller state', () {
+    final controller = BloubController();
+
+    controller.setState(BloubState.exclaim, 0);
+    expect(controller.state, BloubState.exclaim);
+
+    controller.setShape(BloubShape.cloud, 0);
+    expect(controller.shape, BloubShape.cloud);
+
+    controller.setExpression(BloubExpression.happy, 0);
+    expect(controller.expression, BloubExpression.happy);
+  });
+
+  test('a custom color overrides the predefined color when resolving', () {
+    final controller = BloubController();
+    controller.setColor(custom: const Color(0xFF123456));
+    expect(controller.resolvedColor, const Color(0xFF123456));
   });
 }

@@ -73,6 +73,8 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
     BloubState.notify: 'Notify',
     BloubState.exclaim: 'Exclaim',
     BloubState.sleep: 'Sleep',
+    BloubState.egg: 'Egg',
+    BloubState.hexagon: 'Hexagon',
     BloubState.play: 'Play',
     BloubState.orbit: 'Orbit',
     BloubState.swirl: 'Swirl',
@@ -82,14 +84,18 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
 
   static const expressionNames = {
     BloubExpression.neutral: 'Neutral',
+    BloubExpression.attentif: 'Attentive',
     BloubExpression.surprised: 'Surprised',
     BloubExpression.excited: 'Excited',
+    BloubExpression.happy: 'Happy',
     BloubExpression.laughing: 'Laughing',
     BloubExpression.angry: 'Angry',
     BloubExpression.sad: 'Sad',
     BloubExpression.scared: 'Scared',
+    BloubExpression.suspicious: 'Suspicious',
     BloubExpression.confused: 'Confused',
     BloubExpression.curious: 'Curious',
+    BloubExpression.proud: 'Proud',
     BloubExpression.shy: 'Shy',
     BloubExpression.unimpressed: 'Unimpressed',
     BloubExpression.sleepy: 'Sleepy',
@@ -128,17 +134,11 @@ class _PlaygroundScreenState extends State<PlaygroundScreen>
     final yaw = (dx / size.width) * 80.0;
     final pitch = -(dy / size.height) * 80.0;
 
-    _controller.setLook(
-      Look(yaw: yaw, pitch: pitch, mix: 1.0, spin: 0.0, wander: 0.0),
-      _now,
-    );
+    _controller.lookAt(yaw: yaw, pitch: pitch, now: _now);
   }
 
   void _resetGaze() {
-    _controller.setLook(
-      Look(yaw: 0.0, pitch: 0.0, mix: 0.0, spin: 0.0, wander: 1.0),
-      _now,
-    );
+    _controller.resetGaze(_now);
   }
 
   Widget _buildGridItem({

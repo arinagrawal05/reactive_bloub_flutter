@@ -4,7 +4,6 @@ import '../core/math.dart';
 import '../core/shape.dart';
 import '../core/profiles.dart';
 import 'decor.dart';
-import 'mascot_expression.dart';
 
 class EyeCfg {
   final double w;

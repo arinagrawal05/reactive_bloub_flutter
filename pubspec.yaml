@@ -1,7 +1,13 @@
 name: bloub_avatar
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: "An animated, procedurally-rendered blob mascot avatar for Flutter — 14 shapes, 16 expressions, and 15 animated states, all cross-fading live."
+version: 0.1.0
+# TODO(publish): set `repository:` to the actual GitHub URL once this package
+# has a remote — pub.dev requires it to be reachable for the "verified" badge.
+topics:
+  - avatar
+  - mascot
+  - animation
+  - character
 
 environment:
   sdk: ^3.10.8
@@ -10,6 +16,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.9.0
   path_drawing: ^1.0.1
 
 dev_dependencies:

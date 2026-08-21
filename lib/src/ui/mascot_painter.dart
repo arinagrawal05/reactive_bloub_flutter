@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 import '../engine/mascot_engine.dart';
-import '../engine/skins.dart';
 import 'dart:typed_data';
-import 'dart:math' as math;
 
 class MascotPainter extends CustomPainter {
   final BotFrame frame;
@@ -32,7 +30,7 @@ class MascotPainter extends CustomPainter {
     if (frame.bodyAlpha > 0) {
       final bodyPath = parseSvgPathData(frame.bodyPath);
       final bodyPaint = Paint()
-        ..color = baseColor.withOpacity(frame.bodyAlpha)
+        ..color = baseColor.withValues(alpha: frame.bodyAlpha)
         ..style = PaintingStyle.fill;
       canvas.drawPath(bodyPath, bodyPaint);
     }
@@ -52,7 +50,7 @@ class MascotPainter extends CustomPainter {
       
       final eyePath = parseSvgPathData(eye.d);
       final eyePaint = Paint()
-        ..color = Colors.white.withOpacity(eye.alpha)
+        ..color = Colors.white.withValues(alpha: eye.alpha)
         ..style = PaintingStyle.fill;
       canvas.drawPath(eyePath, eyePaint);
       
@@ -64,7 +62,7 @@ class MascotPainter extends CustomPainter {
       if (arc.opacity <= 0) continue;
       final arcPath = parseSvgPathData(arc.front);
       final arcPaint = Paint()
-        ..color = baseColor.withOpacity(arc.opacity)
+        ..color = baseColor.withValues(alpha: arc.opacity)
         ..style = PaintingStyle.stroke
         ..strokeWidth = arc.width
         ..strokeCap = StrokeCap.round;
@@ -99,7 +97,7 @@ class MascotPainter extends CustomPainter {
       }
       
       final paint = Paint()
-        ..color = dotColor.withOpacity(dot.opacity)
+        ..color = dotColor.withValues(alpha: dot.opacity)
         ..style = PaintingStyle.fill;
         
       if (dot.d != null) {

@@ -1,39 +1,103 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# bloub_avatar
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+An animated, procedurally-rendered mascot avatar for Flutter. Every frame is
+computed live — no sprite sheets, no Lottie files — so shapes, expressions,
+and animated states cross-fade smoothly into each other and blend in any
+combination.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **14 shapes** — circle, pebble, squircle, capsule, triangle, hexagon,
+  cloud, droplet, flame, brain, medal, acorn, jellyfish, clover
+- **16 expressions** — neutral, happy, excited, sad, angry, curious, proud,
+  shy, sleepy, and more
+- **15 animated states** — idle, thinking, wink, alert, notify, exclaim,
+  sleep, play, orbit, burst, comet, and more
+- **11 preset colors**, or any custom `Color`
+- Pointer/gaze tracking, PNG export, and a fully reactive `ChangeNotifier`
+  controller
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```yaml
+dependencies:
+  bloub_avatar: ^0.1.0
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+```dart
+import 'package:bloub_avatar/bloub_avatar.dart';
+
+final controller = BloubController(
+  initialShape: BloubShape.circle,
+  initialPredefinedColor: BloubPredefinedColor.blue,
+);
+
+BloubAvatar(controller: controller, size: 120)
+```
+
+React to something happening in your app:
 
 ```dart
-const like = 'sample';
+// A right or wrong answer — plays the reaction, then returns to idle on its own
+controller.react(correct: true);
+
+// A bigger celebration — level complete, milestone reached — also auto-returns
+controller.celebrate();
+
+// While something is loading — loops until you call idle()/react()/celebrate()
+controller.think();
+
+// Back to resting
+controller.idle();
 ```
+
+The controller keeps its own clock, so `now` is optional everywhere — pass
+one only if you need to synchronize with some other animation clock. See
+`example/` for a full playground with a shape/expression/state picker and a
+PNG export button.
+
+Change shape, color, or expression directly:
+
+```dart
+controller.setShape(BloubShape.hexagon);
+controller.setColor(predefined: BloubPredefinedColor.teal);
+controller.setExpression(BloubExpression.curious);
+```
+
+Track a pointer or UI element:
+
+```dart
+controller.lookAt(yaw: 20, pitch: -10);
+// later
+controller.resetGaze();
+```
+
+Export the current frame as a PNG (e.g. for a share card or a static
+thumbnail):
+
+```dart
+final bytes = await controller.exportAsPng(size: 512);
+```
+
+### States that hold vs. states that play once
+
+`BloubState.idle`, `.thinking`, `.notify`, and `.sleep` are sustained
+states — they loop for as long as you leave the avatar in them. States like
+`.exclaim`, `.alert`, `.wink`, and `.comet` play a fixed pose once and then
+just hold their last frame — the engine itself never snaps them back to
+idle. Use `react`/`celebrate` for those (they schedule the return to idle
+for you); reach for `setState` directly only when you want to hold a state
+indefinitely or drive the sequencing yourself.
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Dispose the controller when you're done with it, same as any
+`ChangeNotifier`:
+
+```dart
+@override
+void dispose() {
+  controller.dispose();
+  super.dispose();
+}
+```
