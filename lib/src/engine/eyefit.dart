@@ -1,5 +1,6 @@
 import '../core/face.dart';
 import '../core/shape.dart';
+import '../ui/bloub_enums.dart';
 import 'skins.dart';
 import 'mascot_expression.dart';
 import 'mascot_state.dart';
@@ -311,7 +312,7 @@ Vec2 _decalagePour(StateDef def, List<double> radii, BotExpression? expr) {
 
 const Vec2 _nul = Vec2(0, 0);
 
-String _clef(String state, String? expr) => '$state|${expr ?? ''}';
+String _clef(BloubState state, BloubExpression? expr) => '${state.name}|${expr?.name ?? ''}';
 
 Map<List<double>, Map<String, Vec2>>? _decalagesCache;
 
@@ -333,7 +334,7 @@ Map<List<double>, Map<String, Vec2>> _batir() {
   return result;
 }
 
-Vec2 decalageDesYeux(List<double>? radii, String state, String? expr) {
+Vec2 decalageDesYeux(List<double>? radii, BloubState state, BloubExpression? expr) {
   if (radii == null) return _nul;
   _decalagesCache ??= _batir();
   final par = _decalagesCache![radii];

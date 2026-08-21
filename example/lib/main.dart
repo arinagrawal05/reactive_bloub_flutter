@@ -434,11 +434,24 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                InkWell(
-                  onTap: () => launchUrl(Uri.parse('https://x.com/ArinBuilds')),
-                  child: const Text(
-                    'Made by ArinBuilds ❤️',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                Center(
+                  child: InkWell(
+                    onTap: () =>
+                        launchUrl(Uri.parse('https://x.com/ArinBuilds')),
+                    child: RichText(
+                      text: const TextSpan(
+                        text: 'Made with ❤️ by ',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                        children: [
+                          TextSpan(
+                            text: 'ArinBuilds',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],

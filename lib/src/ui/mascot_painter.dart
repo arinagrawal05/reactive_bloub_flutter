@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 import '../engine/mascot_engine.dart';
@@ -61,8 +62,21 @@ class MascotPainter extends CustomPainter {
     for (final arc in frame.arcs) {
       if (arc.opacity <= 0) continue;
       final arcPath = parseSvgPathData(arc.front);
+      
+      final colors = arc.grad.stops.map((hexStr) {
+        final hexNum = hexStr.replaceAll('#', '');
+        return Color(int.parse(hexNum.length == 6 ? 'FF$hexNum' : hexNum, radix: 16)).withValues(alpha: arc.opacity);
+      }).toList();
+
+      final shader = ui.Gradient.linear(
+        Offset(arc.grad.x1, arc.grad.y1),
+        Offset(arc.grad.x2, arc.grad.y2),
+        colors,
+        [0.0, 0.5, 1.0],
+      );
+
       final arcPaint = Paint()
-        ..color = baseColor.withValues(alpha: arc.opacity)
+        ..shader = shader
         ..style = PaintingStyle.stroke
         ..strokeWidth = arc.width
         ..strokeCap = StrokeCap.round;
@@ -72,7 +86,7 @@ class MascotPainter extends CustomPainter {
     // Draw notif
     if (frame.notif != null) {
       final notifPaint = Paint()
-        ..color = const Color(0xFFF3483F)
+        ..color = const Color(0xFF41D1FF) // Vite blue
         ..style = PaintingStyle.fill;
       canvas.drawCircle(Offset(frame.notif!.x, frame.notif!.y), frame.notif!.r, notifPaint);
     }
@@ -93,7 +107,7 @@ class MascotPainter extends CustomPainter {
       
       Color dotColor = baseColor;
       if (dot.color == 'var(--bot-notif)') {
-        dotColor = const Color(0xFFF3483F);
+        dotColor = const Color(0xFF41D1FF); // Vite blue
       }
       
       final paint = Paint()

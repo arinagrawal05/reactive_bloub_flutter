@@ -56,9 +56,9 @@ class BloubController extends ChangeNotifier {
 
     _engine = MascotEngine(
       scale: 100.0,
-      initial: _state.id,
-      shape: shapeById[_shape.id]?.radii,
-      expression: _expression != null ? expressionById[_expression!.id] : null,
+      initial: _state,
+      shape: shapeById[_shape]?.radii,
+      expression: _expression != null ? expressionById[_expression!] : null,
     );
   }
 
@@ -100,7 +100,7 @@ class BloubController extends ChangeNotifier {
   void setShape(BloubShape shape, [double? now]) {
     if (_shape == shape) return;
     _shape = shape;
-    _engine.setShape(shapeById[_shape.id]?.radii, now ?? elapsed);
+    _engine.setShape(shapeById[_shape]?.radii, now ?? elapsed);
     notifyListeners();
   }
 
@@ -119,7 +119,7 @@ class BloubController extends ChangeNotifier {
     if (_state == state) return;
     _playToken++; // Cancel any temporary states
     _state = state;
-    _engine.setState(_state.id, now ?? elapsed);
+    _engine.setState(_state, now ?? elapsed);
     notifyListeners();
   }
 
@@ -134,10 +134,10 @@ class BloubController extends ChangeNotifier {
   }) {
     if (_state == state) return;
     _state = state;
-    _engine.setState(_state.id, now ?? elapsed);
+    _engine.setState(_state, now ?? elapsed);
     notifyListeners();
 
-    final double defaultDuration = stateById[state.id]?.duration ?? 2.0;
+    final double defaultDuration = stateById[state]?.duration ?? 2.0;
     final int delayMs = duration?.inMilliseconds ?? (defaultDuration * 1000).round();
     
     final token = ++_playToken;
@@ -153,7 +153,7 @@ class BloubController extends ChangeNotifier {
     _expressionToken++; // Cancel any temporary expressions
     _expression = expression;
     _engine.setExpression(
-      expression != null ? expressionById[expression.id] : null,
+      expression != null ? expressionById[expression] : null,
       now ?? elapsed,
     );
     notifyListeners();
@@ -170,7 +170,7 @@ class BloubController extends ChangeNotifier {
     if (_expression == expression) return;
     _expression = expression;
     _engine.setExpression(
-      expressionById[expression.id],
+      expressionById[expression],
       now ?? elapsed,
     );
     notifyListeners();
@@ -218,7 +218,7 @@ class BloubController extends ChangeNotifier {
     }
     if (shape != null && _shape != shape) {
       _shape = shape;
-      _engine.setShape(shapeById[_shape.id]?.radii, elapsed);
+      _engine.setShape(shapeById[_shape]?.radii, elapsed);
       changed = true;
     }
     if (changed) {

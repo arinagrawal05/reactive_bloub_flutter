@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import '../core/face.dart';
 import '../core/math.dart';
 import '../core/shape.dart';
+import '../ui/bloub_enums.dart';
 import 'decor.dart';
 import 'eyefit.dart';
 import 'mascot_expression.dart';
@@ -149,8 +150,8 @@ Pose blendPose(Pose a, Pose b, double t) {
 class MascotEngine {
   final double scale;
 
-  String _cur;
-  String? _prev;
+  BloubState _cur;
+  BloubState? _prev;
   Pose? _departFige;
   double _tCur = 0;
   double _tPrev = 0;
@@ -175,7 +176,7 @@ class MascotEngine {
 
   MascotEngine({
     this.scale = 100.0,
-    String initial = 'idle',
+    BloubState initial = BloubState.idle,
     List<double>? shape,
     BotExpression? expression,
   }) : _cur = initial,
@@ -289,7 +290,7 @@ class MascotEngine {
     return pose;
   }
 
-  Vec2 _decalageAtTime(double now, String state) {
+  Vec2 _decalageAtTime(double now, BloubState state) {
     Vec2 surAxe(double debut, double duree, Vec2 a, Vec2 b) {
       if (a.x == b.x && a.y == b.y) return b;
       final k = (now - debut) / duree;
@@ -310,9 +311,9 @@ class MascotEngine {
     return surAxe(_shapeAt, shapeMorph, parForme(_shapePrev), parForme(_shape));
   }
 
-  String get state => _cur;
+  BloubState get state => _cur;
 
-  void reset(String id, double now) {
+  void reset(BloubState id, double now) {
     _cur = id;
     _prev = null;
     _departFige = null;
@@ -344,7 +345,7 @@ class MascotEngine {
     );
   }
 
-  void setState(String id, double now) {
+  void setState(BloubState id, double now) {
     if (id == _cur) return;
     final morph = stateById[_cur]!.morph;
     final enPleinFondu = _prev != null && now - _tCur < morph;

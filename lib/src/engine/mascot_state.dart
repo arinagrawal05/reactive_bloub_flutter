@@ -3,6 +3,7 @@ import '../core/face.dart';
 import '../core/math.dart';
 import '../core/shape.dart';
 import '../core/profiles.dart';
+import '../ui/bloub_enums.dart';
 import 'decor.dart';
 
 class EyeCfg {
@@ -152,7 +153,7 @@ const double triOrbit = 0.213;
 
 
 class StateDef {
-  final String id;
+  final BloubState id;
   final double duration;
   final double? minDuration;
   final double morph;
@@ -181,7 +182,7 @@ double _dotPulse(double t, int index) {
 
 final List<StateDef> states = [
   StateDef(
-    id: 'idle',
+    id: BloubState.idle,
     duration: 2.4,
     morph: 0.45,
     blinkIn: false,
@@ -190,7 +191,7 @@ final List<StateDef> states = [
     pose: (t, shape) => basePose(),
   ),
   StateDef(
-    id: 'thinking',
+    id: BloubState.thinking,
     duration: 2.6,
     morph: 0.4,
     baseFace: false,
@@ -215,7 +216,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'wink',
+    id: BloubState.wink,
     duration: 1.6,
     morph: 0.3,
     blinkIn: true,
@@ -231,7 +232,7 @@ final List<StateDef> states = [
     ),
   ),
   StateDef(
-    id: 'wide',
+    id: BloubState.wide,
     duration: 1.8,
     morph: 0.55,
     blinkIn: true,
@@ -244,7 +245,7 @@ final List<StateDef> states = [
     ),
   ),
   StateDef(
-    id: 'alert',
+    id: BloubState.alert,
     duration: 2.4,
     minDuration: 2.0,
     morph: 0.45,
@@ -275,7 +276,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'notify',
+    id: BloubState.notify,
     duration: 2.2,
     morph: 0.5,
     blinkIn: true,
@@ -301,7 +302,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'exclaim',
+    id: BloubState.exclaim,
     duration: 2.0,
     morph: 0.45,
     baseFace: false,
@@ -314,7 +315,7 @@ final List<StateDef> states = [
     ),
   ),
   StateDef(
-    id: 'sleep',
+    id: BloubState.sleep,
     duration: 2.4,
     morph: 0.5,
     baseFace: false,
@@ -334,7 +335,7 @@ final List<StateDef> states = [
   ),
 
   StateDef(
-    id: 'play',
+    id: BloubState.play,
     duration: 2.0,
     morph: 0.5,
     baseFace: false,
@@ -376,7 +377,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'orbit',
+    id: BloubState.orbit,
     duration: 3.4,
     minDuration: 2.5,
     morph: 0.6,
@@ -412,7 +413,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'swirl',
+    id: BloubState.swirl,
     duration: 1.3,
     minDuration: 1.3,
     morph: 0.3,
@@ -435,7 +436,7 @@ final List<StateDef> states = [
     },
   ),
   StateDef(
-    id: 'burst',
+    id: BloubState.burst,
     duration: 2.6,
     minDuration: 2.4,
     morph: 0.4,
@@ -457,33 +458,33 @@ final List<StateDef> states = [
   ),
 ];
 
-final Map<String, StateDef> stateById = {for (var s in states) s.id: s};
+final Map<BloubState, StateDef> stateById = {for (var s in states) s.id: s};
 
-final Map<String, double> poses = {
-  'idle': 1.0,
-  'thinking': 1.1,
-  'wink': 0.8,
-  'wide': 0.8,
-  'alert': 0.75,
-  'notify': 0.9,
-  'exclaim': 0.8,
-  'sleep': 0.45,
-  'play': 0.9,
-  'orbit': 1.2,
-  'swirl': 0.5,
-  'burst': 0.45,
+final Map<BloubState, double> poses = {
+  BloubState.idle: 1.0,
+  BloubState.thinking: 1.1,
+  BloubState.wink: 0.8,
+  BloubState.wide: 0.8,
+  BloubState.alert: 0.75,
+  BloubState.notify: 0.9,
+  BloubState.exclaim: 0.8,
+  BloubState.sleep: 0.45,
+  BloubState.play: 0.9,
+  BloubState.orbit: 1.2,
+  BloubState.swirl: 0.5,
+  BloubState.burst: 0.45,
 };
 
-final List<String> sequence = [
-  'idle',
-  'thinking',
-  'wink',
-  'wide',
-  'alert',
-  'notify',
-  'exclaim',
-  'sleep',
-  'play',
-  'orbit',
-  'burst',
+final List<BloubState> sequence = [
+  BloubState.idle,
+  BloubState.thinking,
+  BloubState.wink,
+  BloubState.wide,
+  BloubState.alert,
+  BloubState.notify,
+  BloubState.exclaim,
+  BloubState.sleep,
+  BloubState.play,
+  BloubState.orbit,
+  BloubState.burst,
 ];
