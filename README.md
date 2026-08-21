@@ -3,7 +3,7 @@
 ![Mascot Overview](images/bloub_overview.png)
 <br/>
 
-<video src="images/reactive_bloub_walkthrough.mov" width="600" autoplay loop muted playsinline></video>
+<video src="images/reactive_bloub_walkthrough.mp4" width="600" autoplay loop muted playsinline></video>
 
 
 An animated mascot avatar for Flutter. Features fluid shape morphing, live expressions and vibrant particle effects based on app state. Shapes, expressions, and animated states cross-fade smoothly into each other and blend in any combination!
