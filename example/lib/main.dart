@@ -67,12 +67,18 @@ class _BloubSimpleExampleState extends State<BloubSimpleExample> {
               spacing: 12,
               children: [
                 ElevatedButton(
-                  onPressed: () => _controller.react(correct: true),
-                  child: const Text("Success Reaction"),
+                  onPressed: () {
+                    _controller.setState(BloubState.alert);
+                    _controller.setExpression(BloubExpression.surprised);
+                  },
+                  child: const Text("Alert Reaction"),
                 ),
                 ElevatedButton(
-                  onPressed: () => _controller.celebrate(),
-                  child: const Text("Celebrate!"),
+                  onPressed: () {
+                    _controller.setState(BloubState.orbit);
+                    _controller.setExpression(BloubExpression.excited);
+                  },
+                  child: const Text("Orbit!"),
                 ),
                 ElevatedButton(
                   onPressed: () => _controller.setShape(BloubShape.cloud),

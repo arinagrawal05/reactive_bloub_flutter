@@ -1,6 +1,6 @@
 name: reactive_bloub
 description: "An animated, procedurally-rendered blob mascot avatar for Flutter — 14 shapes, 16 expressions, and 15 animated states, all cross-fading live."
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/arinagrawal05/reactive_bloub_flutter
 topics:
   - avatar

@@ -59,20 +59,23 @@ BloubAvatar(
 
 ### High-level Reactions 🎭
 
-Bloub comes with handy methods to orchestrate sequences (like playing an animation and returning to idle):
+Bloub comes with handy states and expressions to orchestrate sequences (like playing an animation and returning to idle):
 
 ```dart
-// A right or wrong answer — plays a reaction, then returns to idle on its own
-controller.react(correct: true);
+// A right or wrong answer — plays an alert, then you can return to idle
+controller.setState(BloubState.alert);
+controller.setExpression(BloubExpression.surprised);
 
 // A bigger celebration — e.g. level complete or milestone reached
-controller.celebrate();
+controller.setState(BloubState.orbit);
+controller.setExpression(BloubExpression.excited);
 
-// While something is loading — loops until you call idle()/react()/celebrate()
-controller.think();
+// While something is loading — loops until you change the state
+controller.setState(BloubState.thinking);
 
 // Back to resting
-controller.idle();
+controller.setState(BloubState.idle);
+controller.setExpression(BloubExpression.happy);
 ```
 
 ### Morphing Shapes, Colors, and Expressions 🎨
@@ -146,7 +149,7 @@ Animations are categorized into two paradigms:
 1. **Sustained States** (`.idle`, `.thinking`, `.notify`, `.sleep`): These loop indefinitely as long as you leave the avatar in them.
 2. **One-Shot States** (`.exclaim`, `.alert`, `.wink`, `.comet`): These play a fixed pose once and then hold their last frame. 
 
-If you set a one-shot state directly via `controller.setState(BloubState.exclaim)`, it will not return to idle automatically. Usually, it's better to use `react()` or `celebrate()` which schedules the sequence back to `.idle` for you.
+If you set a one-shot state directly via `controller.setState(BloubState.exclaim)`, it will hold that frame until you change it. You can write your own helper methods to schedule a return to `.idle` after a delay!
 
 ### Example App (Playground)
 
