@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:reactive_bloub/reactive_bloub.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'export_stub.dart' if (dart.library.html) 'export_web.dart';
 
@@ -392,6 +393,53 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
                       if (!val) _resetGaze();
                     });
                   },
+                ),
+                const SizedBox(height: 40),
+
+                // About section
+                const Text(
+                  'About',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                const SizedBox(height: 12),
+                InkWell(
+                  onTap: () => launchUrl(
+                    Uri.parse(
+                      'https://github.com/arinagrawal05/reactive_bloub_flutter',
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300]!),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.code, size: 20),
+                            SizedBox(width: 12),
+                            Text('View the project on GitHub'),
+                          ],
+                        ),
+                        Icon(Icons.arrow_outward, size: 16, color: Colors.grey),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                InkWell(
+                  onTap: () => launchUrl(Uri.parse('https://x.com/ArinBuilds')),
+                  child: const Text(
+                    'Made by ArinBuilds ❤️',
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
                 ),
               ],
             ),
