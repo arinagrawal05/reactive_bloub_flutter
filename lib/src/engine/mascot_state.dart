@@ -150,14 +150,6 @@ final String tearPath = polyPath(
 
 const double triOrbit = 0.213;
 
-Silhouette _spinningTriangle(double rot) {
-  return createSilhouette(
-    ProfileName.triangle,
-    rot: rot,
-    cx: -triOrbit * math.sin(rot),
-    cy: triOrbit * math.cos(rot),
-  );
-}
 
 class StateDef {
   final String id;
@@ -340,36 +332,7 @@ final List<StateDef> states = [
       eyeAlpha: 0.0,
     ),
   ),
-  StateDef(
-    id: 'egg',
-    duration: 1.8,
-    morph: 0.4,
-    baseFace: false,
-    baseBody: false,
-    blinkIn: true,
-    pose: (t, shape) => basePose(
-      sil: createSilhouette(ProfileName.egg),
-      offX: 0.0,
-      gaze: const HeadGaze(yaw: 19.97, pitch: 26.01, roll: -17.1),
-      split: 11.07,
-      eyes: _pair(0.164, 0.385),
-    ),
-  ),
-  StateDef(
-    id: 'hexagon',
-    duration: 1.6,
-    morph: 0.4,
-    baseFace: false,
-    baseBody: false,
-    blinkIn: true,
-    pose: (t, shape) => basePose(
-      sil: createSilhouette(ProfileName.hexagon),
-      offX: 0.0,
-      gaze: const HeadGaze(yaw: 23.11, pitch: 24.42, roll: -13.3),
-      split: 13.37,
-      eyes: _pair(0.177, 0.411),
-    ),
-  ),
+
   StateDef(
     id: 'play',
     duration: 2.0,
@@ -492,38 +455,6 @@ final List<StateDef> states = [
       );
     },
   ),
-  StateDef(
-    id: 'comet',
-    duration: 2.4,
-    minDuration: 2.4,
-    morph: 0.45,
-    baseFace: false,
-    baseBody: true,
-    blinkIn: false,
-    pose: (t, shape) {
-      final collapse = 1.0 - clamp(t / 0.1);
-      final regrow = clamp((t - 0.7) / 0.1);
-      final scale = collapse + (1.0 - collapse) * regrow;
-      final fade = clamp((t - 0.15) / 0.25) * clamp((1.95 - t) / 0.3);
-      final List<ArcSpec> specArcs = [];
-      for (int i = 0; i < cometRibbons.length; i++) {
-        specArcs.add(
-          ArcSpec(id: 'cm$i', seed: cometRibbons[i], t: t, opacity: fade),
-        );
-      }
-      return basePose(
-        sil: createCircle(
-          1.0,
-          sx: scale,
-          sy: scale,
-          cy: math.sin(clamp(t / 1.7) * math.pi) * 0.035,
-        ),
-        offX: 0.0,
-        eyeAlpha: clamp((t - 2.0) / 0.35),
-        arcs: specArcs,
-      );
-    },
-  ),
 ];
 
 final Map<String, StateDef> stateById = {for (var s in states) s.id: s};
@@ -537,13 +468,10 @@ final Map<String, double> poses = {
   'notify': 0.9,
   'exclaim': 0.8,
   'sleep': 0.45,
-  'egg': 0.8,
-  'hexagon': 0.8,
   'play': 0.9,
   'orbit': 1.2,
   'swirl': 0.5,
   'burst': 0.45,
-  'comet': 1.15,
 };
 
 final List<String> sequence = [
@@ -555,10 +483,7 @@ final List<String> sequence = [
   'notify',
   'exclaim',
   'sleep',
-  'egg',
-  'hexagon',
   'play',
   'orbit',
   'burst',
-  'comet',
 ];

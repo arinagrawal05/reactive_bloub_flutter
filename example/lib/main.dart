@@ -70,13 +70,10 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
     BloubState.notify: 'Notify',
     BloubState.exclaim: 'Exclaim',
     BloubState.sleep: 'Sleep',
-    BloubState.egg: 'Egg',
-    BloubState.hexagon: 'Hexagon',
     BloubState.play: 'Play',
     BloubState.orbit: 'Orbit',
     BloubState.swirl: 'Swirl',
     BloubState.burst: 'Burst',
-    BloubState.comet: 'Comet',
   };
 
   static const expressionNames = {
@@ -85,17 +82,13 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
     BloubExpression.surprised: 'Surprised',
     BloubExpression.excited: 'Excited',
     BloubExpression.happy: 'Happy',
-    BloubExpression.laughing: 'Laughing',
     BloubExpression.angry: 'Angry',
     BloubExpression.sad: 'Sad',
-    BloubExpression.scared: 'Scared',
     BloubExpression.suspicious: 'Suspicious',
-    BloubExpression.confused: 'Confused',
     BloubExpression.curious: 'Curious',
     BloubExpression.proud: 'Proud',
     BloubExpression.shy: 'Shy',
     BloubExpression.unimpressed: 'Unimpressed',
-    BloubExpression.sleepy: 'Sleepy',
   };
 
   @override

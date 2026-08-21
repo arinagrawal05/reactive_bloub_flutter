@@ -51,15 +51,9 @@ final List<BotExpression> expressions = [
   ),
   BotExpression(
     id: 'heureux',
-    gaze: const HeadGaze(yaw: 5, pitch: 9, roll: 0),
-    split: 17,
-    eyes: _pair(0.27, 0.17, 14),
-  ),
-  BotExpression(
-    id: 'hilare',
-    gaze: const HeadGaze(yaw: 4, pitch: 14, roll: 0),
+    gaze: const HeadGaze(yaw: 5, pitch: 15, roll: 0),
     split: 18,
-    eyes: _pair(0.34, 0.13, 20),
+    eyes: _pair(0.35, 0.12, 25),
   ),
   BotExpression(
     id: 'colere',
@@ -74,22 +68,10 @@ final List<BotExpression> expressions = [
     eyes: _pair(0.22, 0.4, -28),
   ),
   BotExpression(
-    id: 'effraye',
-    gaze: const HeadGaze(yaw: 2, pitch: -20, roll: 0),
-    split: 20.5,
-    eyes: _pair(0.4, 0.6),
-  ),
-  BotExpression(
     id: 'mefiant',
-    gaze: const HeadGaze(yaw: 12, pitch: 6, roll: -6),
-    split: 16,
-    eyes: [_eye(0.21, 0.4), _eye(0.22, 0.15)],
-  ),
-  BotExpression(
-    id: 'confus',
-    gaze: const HeadGaze(yaw: -14, pitch: 3, roll: 8),
-    split: 16.5,
-    eyes: [_eye(0.2, 0.44, -18), _eye(0.28, 0.17, 14)],
+    gaze: const HeadGaze(yaw: 20, pitch: 10, roll: -10),
+    split: 15,
+    eyes: [_eye(0.15, 0.4, -5), _eye(0.3, 0.1, 20)],
   ),
   BotExpression(
     id: 'curieux',
@@ -115,16 +97,10 @@ final List<BotExpression> expressions = [
     split: 16,
     eyes: _pair(0.3, 0.12),
   ),
-  BotExpression(
-    id: 'somnolent',
-    gaze: const HeadGaze(yaw: 6, pitch: -9, roll: -3),
-    split: 16,
-    eyes: _pair(0.2, 0.42, 0, 0.42),
-  ),
 ];
 
 final Map<String, BotExpression> expressionById = {
-  for (var e in expressions) e.id: e
+  for (var e in expressions) e.id: e,
 };
 const String defaultExpression = 'neutre';
 
@@ -146,6 +122,9 @@ BotExpression blendExpression(BotExpression a, BotExpression b, double t) {
       roll: lerp(a.gaze.roll, b.gaze.roll, t),
     ),
     split: lerp(a.split, b.split, t),
-    eyes: [_lerpEyeCfg(a.eyes[0], b.eyes[0], t), _lerpEyeCfg(a.eyes[1], b.eyes[1], t)],
+    eyes: [
+      _lerpEyeCfg(a.eyes[0], b.eyes[0], t),
+      _lerpEyeCfg(a.eyes[1], b.eyes[1], t),
+    ],
   );
 }

@@ -26,17 +26,13 @@ enum BloubExpression {
   surprised('surpris'),
   excited('excite'),
   happy('content'),
-  laughing('rire'),
   angry('colere'),
   sad('triste'),
-  scared('peur'),
   suspicious('suspect'),
-  confused('perplexe'),
   curious('curieux'),
   proud('fier'),
   shy('timide'),
-  unimpressed('blase'),
-  sleepy('sommeil');
+  unimpressed('blase');
 
   final String id;
   const BloubExpression(this.id);
@@ -70,12 +66,6 @@ enum BloubState {
   /// Body bobs gently — inactive/away.
   sleep('sleep'),
 
-  /// Body morphs into an egg shape.
-  egg('egg'),
-
-  /// Body morphs into a hexagon.
-  hexagon('hexagon'),
-
   /// Spins and darts forward with a colorful swoosh — a "let's go" cue.
   play('play'),
 
@@ -86,10 +76,7 @@ enum BloubState {
   swirl('swirl'),
 
   /// Explodes into particles and reforms.
-  burst('burst'),
-
-  /// Streaks across with a colorful ribbon trail — a big celebration.
-  comet('comet');
+  burst('burst');
 
   final String id;
   const BloubState(this.id);
