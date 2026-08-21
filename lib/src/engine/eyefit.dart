@@ -49,13 +49,16 @@ List<Empreinte> _empreintes(Visage visage, Silhouette sil, List<double> radii) {
     final long = hh > hw;
     final demi = long ? hh - r : hw - r;
     final fit = radiusAtAngle(radii, math.atan2(e.y, e.x) - sil.rot);
-    out.add(Empreinte(
-      e.x * fit, e.y * fit,
-      (long ? cx : ax) * demi,
-      (long ? cy : ay) * demi,
-      r,
-      [ax, ay, cx, cy]
-    ));
+    out.add(
+      Empreinte(
+        e.x * fit,
+        e.y * fit,
+        (long ? cx : ax) * demi,
+        (long ? cy : ay) * demi,
+        r,
+        [ax, ay, cx, cy],
+      ),
+    );
   }
   return out;
 }
@@ -67,7 +70,13 @@ class ApprocheResult {
   ApprocheResult(this.d, this.ux, this.uy);
 }
 
-ApprocheResult _approche(List<MutablePoint> pts, double x0, double y0, double x1, double y1) {
+ApprocheResult _approche(
+  List<MutablePoint> pts,
+  double x0,
+  double y0,
+  double x1,
+  double y1,
+) {
   final sx = x1 - x0;
   final sy = y1 - y0;
   final len2 = sx * sx + sy * sy;
@@ -77,7 +86,11 @@ ApprocheResult _approche(List<MutablePoint> pts, double x0, double y0, double x1
   for (int i = 0; i < pts.length; i++) {
     final p = pts[i];
     double t = len2 > 0 ? ((p.x - x0) * sx + (p.y - y0) * sy) / len2 : 0;
-    t = t < 0 ? 0 : t > 1 ? 1 : t;
+    t = t < 0
+        ? 0
+        : t > 1
+        ? 1
+        : t;
     final ex = x0 + t * sx - p.x;
     final ey = y0 + t * sy - p.y;
     final d2 = ex * ex + ey * ey;
@@ -99,7 +112,8 @@ class Epreuve {
   Epreuve(this.empreintes, this.reference, this.contour, this.calContour);
 }
 
-final double _flottement = math.sqrt(_deriveX * _deriveX + _deriveY * _deriveY) * _r;
+final double _flottement =
+    math.sqrt(_deriveX * _deriveX + _deriveY * _deriveY) * _r;
 
 class PireResult {
   final double marge;
@@ -108,7 +122,12 @@ class PireResult {
   PireResult(this.marge, this.ux, this.uy);
 }
 
-PireResult _pire(List<MutablePoint> pts, List<Empreinte> emps, double tx, double ty) {
+PireResult _pire(
+  List<MutablePoint> pts,
+  List<Empreinte> emps,
+  double tx,
+  double ty,
+) {
   double marge = double.infinity;
   double ux = 0;
   double uy = 0;
@@ -120,9 +139,13 @@ PireResult _pire(List<MutablePoint> pts, List<Empreinte> emps, double tx, double
     final m1 = e.m[1];
     final m2 = e.m[2];
     final m3 = e.m[3];
-    final rayon = e.r * math.sqrt(
-      math.pow(m0 * a.ux + m1 * a.uy, 2) + math.pow(m2 * a.ux + m3 * a.uy, 2)
-    ) + _flottement;
+    final rayon =
+        e.r *
+            math.sqrt(
+              math.pow(m0 * a.ux + m1 * a.uy, 2) +
+                  math.pow(m2 * a.ux + m3 * a.uy, 2),
+            ) +
+        _flottement;
     if (a.d - rayon < marge) {
       marge = a.d - rayon;
       ux = a.ux;
@@ -212,7 +235,10 @@ Vec2 _resous(List<Epreuve> epreuves) {
 
   final x = meilleureNorme == double.infinity ? secoursX : meilleurX;
   final y = meilleureNorme == double.infinity ? secoursY : meilleurY;
-  return Vec2(double.parse((x / _r).toStringAsFixed(6)), double.parse((y / _r).toStringAsFixed(6)));
+  return Vec2(
+    double.parse((x / _r).toStringAsFixed(6)),
+    double.parse((y / _r).toStringAsFixed(6)),
+  );
 }
 
 Visage _visageDe(StateDef def, Pose pose, BotExpression? expr) {
@@ -229,7 +255,9 @@ List<double> _dates(StateDef def) {
         '${p.eyes[1].w}|${p.eyes[1].h}|${p.eyes[1].tilt}|${p.eyes[1].open}|'
         '${p.sil.rot}|${p.sil.cx}|${p.sil.cy}|${p.sil.sx}|${p.sil.sy}';
   }
-  if (signature(def.pose(0)) == signature(def.pose(def.duration))) return [0.0];
+
+  if (signature(def.pose(0, null)) == signature(def.pose(def.duration, null)))
+    return [0.0];
   const n = 3;
   return List.generate(n, (i) => (i / (n - 1)) * def.duration);
 }
@@ -237,29 +265,45 @@ List<double> _dates(StateDef def) {
 Vec2 _decalagePour(StateDef def, List<double> radii, BotExpression? expr) {
   final List<Epreuve> epreuves = [];
   for (final t in _dates(def)) {
-    final pose = def.pose(t);
-    final contour = toPoints(Silhouette(
-      radii: radii, rot: pose.sil.rot, cx: pose.sil.cx, cy: pose.sil.cy, sx: pose.sil.sx, sy: pose.sil.sy
-    ), _r);
+    final pose = def.pose(t, radii);
+    final contour = toPoints(
+      Silhouette(
+        radii: radii,
+        rot: pose.sil.rot,
+        cx: pose.sil.cx,
+        cy: pose.sil.cy,
+        sx: pose.sil.sx,
+        sy: pose.sil.sy,
+      ),
+      _r,
+    );
     final calContour = toPoints(pose.sil, _r);
     final v = _visageDe(def, pose, expr);
     final List<Visage> coins = [];
     for (final dy in [-_deriveYaw, _deriveYaw]) {
       for (final dp in [-_derivePitch, _derivePitch]) {
-        coins.add(Visage(
-          HeadGaze(yaw: v.gaze.yaw + dy, pitch: v.gaze.pitch + dp, roll: v.gaze.roll),
-          v.split,
-          v.eyes,
-        ));
+        coins.add(
+          Visage(
+            HeadGaze(
+              yaw: v.gaze.yaw + dy,
+              pitch: v.gaze.pitch + dp,
+              roll: v.gaze.roll,
+            ),
+            v.split,
+            v.eyes,
+          ),
+        );
       }
     }
     for (final c in coins) {
-      epreuves.add(Epreuve(
-        _empreintes(c, pose.sil, radii),
-        _empreintes(c, pose.sil, pose.sil.radii),
-        contour,
-        calContour,
-      ));
+      epreuves.add(
+        Epreuve(
+          _empreintes(c, pose.sil, radii),
+          _empreintes(c, pose.sil, pose.sil.radii),
+          contour,
+          calContour,
+        ),
+      );
     }
   }
   return _resous(epreuves);
@@ -277,7 +321,9 @@ Map<List<double>, Map<String, Vec2>> _batir() {
     final Map<String, Vec2> par = {};
     for (final def in states) {
       if (!def.baseBody) continue;
-      final List<BotExpression?> exprs = def.baseFace ? [null, ...expressions] : [null];
+      final List<BotExpression?> exprs = def.baseFace
+          ? [null, ...expressions]
+          : [null];
       for (final expr in exprs) {
         par[_clef(def.id, expr?.id)] = _decalagePour(def, forme.radii, expr);
       }

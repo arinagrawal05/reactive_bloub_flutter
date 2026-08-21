@@ -375,7 +375,7 @@ final List<StateDef> states = [
     duration: 2.0,
     morph: 0.5,
     baseFace: false,
-    baseBody: false,
+    baseBody: true,
     blinkIn: true,
     pose: (t, shape) {
       final fade = clamp(t / 0.35) * clamp((2.2 - t) / 0.5);
@@ -404,7 +404,7 @@ final List<StateDef> states = [
         );
       }
       return basePose(
-        sil: _spinningTriangle(0.0),
+        sil: createCircle(1.0, cy: triOrbit),
         gaze: const HeadGaze(yaw: 12.0, pitch: -8.0, roll: -6.0),
         split: 15.0,
         eyes: _pair(0.18, 0.34),
@@ -418,25 +418,12 @@ final List<StateDef> states = [
     minDuration: 2.5,
     morph: 0.6,
     baseFace: false,
-    baseBody: false,
+    baseBody: true,
     blinkIn: false,
     pose: (t, shape) {
-      final tri = _spinningTriangle(0.0);
       final rot = lerp(0.0, tau / 4.0, clamp((t - 1.1) / 0.6));
-      final ballRadii = shape ?? createCircle(1.0).radii;
       final back = Easings.easeInOutCubic(clamp((t - 1.6) / 0.9));
-      final List<double> radii = [];
-      for (int i = 0; i < tri.radii.length; i++) {
-        radii.add(tri.radii[i] + (ballRadii[i] - tri.radii[i]) * back);
-      }
-      final sil = Silhouette(
-        radii: radii,
-        rot: rot,
-        cx: tri.cx * (1.0 - back),
-        cy: tri.cy * (1.0 - back),
-        sx: 1.0,
-        sy: 1.0,
-      );
+      final sil = createCircle(1.0, rot: rot, cy: triOrbit * (1.0 - back));
       final fade = clamp(t / 0.8) * clamp((3.6 - t) / 0.9);
       final List<ArcSpec> specArcs = [];
       for (int i = 0; i < rings.length; i++) {
