@@ -38,7 +38,7 @@ jobs:
         run: |
           cd example
           flutter pub get
-          flutter build web -t lib/playground.dart --base-href "/reactive_bloub_flutter/" 
+          flutter build web --base-href "/reactive_bloub_flutter/"
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
