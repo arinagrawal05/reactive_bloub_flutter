@@ -3,6 +3,8 @@ import 'package:reactive_bloub/reactive_bloub.dart';
 // Note: The full interactive playground is located in playground.dart. 
 // This file is a minimal example for pub.dev to demonstrate basic usage.
 
+import 'playground.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BloubSimpleExample(),
+      home: PlaygroundScreen(),
     );
   }
 }
