@@ -35071,7 +35071,7 @@ A.a7D.prototype={
 $0(){return A.ab0(A.ii("https://github.com/arinagrawal05/reactive_bloub_flutter",0,null))},
 $S:0}
 A.a7E.prototype={
-$0(){return A.ab0(A.ii("https://x.com/ArinBuilds",0,null))},
+$0(){return A.ab0(A.ii("https://arinbuilds.com",0,null))},
 $S:0}
 A.nl.prototype={
 ao(){return new A.JY()}}
