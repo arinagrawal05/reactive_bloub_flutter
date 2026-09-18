@@ -163,6 +163,6 @@ flutter run -t lib/playground.dart
 
 ---
 
-made with ❤️ by [ArinBuilds](https://x.com/ArinBuilds)
+made with ❤️ by [ArinBuilds](https://arinbuilds.com)
 
 

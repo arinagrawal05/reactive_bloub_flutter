@@ -436,8 +436,7 @@ class _PlaygroundScreenState extends State<PlaygroundScreen> {
                 const SizedBox(height: 24),
                 Center(
                   child: InkWell(
-                    onTap: () =>
-                        launchUrl(Uri.parse('https://x.com/ArinBuilds')),
+                    onTap: () => launchUrl(Uri.parse('https://arinbuilds.com')),
                     child: RichText(
                       text: const TextSpan(
                         text: 'Made with ❤️ by ',
