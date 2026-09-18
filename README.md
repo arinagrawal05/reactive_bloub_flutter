@@ -12,7 +12,8 @@ It's perfect for virtual assistants, gamification, onboarding, loading screens, 
 
 <br/>
 
-### 🌟 [**Try the Live Interactive Demo Here!**](https://arinagr.me/reactive_bloub_flutter/) 🌟
+### 🌟 [**Try the Live Interactive Demo Here!**](https://bloub.arinbuilds.com/) 🌟
+### 🌟 [**Watch the Demo Video Here!**](https://www.youtube.com/watch?v=J9TNbLyrgrU) 🌟
 ## Features ✨
 
 - **Plug & Play** — Drop `BloubAvatar` into your app, pass a controller, and you're done. No assets to bundle, no rigid animations.

@@ -1,3 +1,7 @@
+## 0.1.4
+
+* Update README.
+
 ## 0.1.0
 
 * Initial public release.
